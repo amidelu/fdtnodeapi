@@ -14,7 +14,7 @@ const Movie = db.movies
      try {
          await Movie.create(req.body);
          res.json({
-             'message': 'Movie added successfully'
+             'message': 'Movie added successfully',
          });
      } catch (err) {
          console.log(err);

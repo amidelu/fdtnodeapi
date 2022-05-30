@@ -5,7 +5,7 @@ const router = require('express').Router()
 router.get('/allMovies', movieController.getAllMovies)
 
 // Router for adding movie
-router.post('addMovie', movieController.addMovie);
+router.post('/addMovie', movieController.addMovie);
 
 // Update movie
 router.put('/movies/:id', movieController.updateMovie);
