@@ -30,7 +30,7 @@ db.Sequelize = Sequelize
 db.sequelize = sequelize
 
 db.movies = require('./movieModel.js')(sequelize, DataTypes)
-db.reviews = require('./reviewModel.js')(sequelize, DataTypes)
+// db.reviews = require('./reviewModel.js')(sequelize, DataTypes)
 
 db.sequelize.sync({force: false})
 .then(() => {
