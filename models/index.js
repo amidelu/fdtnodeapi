@@ -29,6 +29,7 @@ const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 
+db.user = require('./userModel.js')(sequelize, DataTypes)
 db.movies = require('./movieModel.js')(sequelize, DataTypes)
 
 db.sequelize.sync({force: false})

@@ -1,3 +1,4 @@
+const { sequelize } = require("../models");
 const db = require("../models");
 
 // Create main model
@@ -8,6 +9,77 @@ const getAllMovies = async (req, res) => {
   let movies = await Movie.findAll({});
   res.status(200).send(movies);
 };
+
+// Get latest movies
+const getLatestMovies = async (req, res) => {
+  let latestMovies = await Movie.findAll({
+    limit: 16,
+    order: [['id', 'DESC']]
+});
+res.status(200).send(latestMovies);
+};
+
+// Search movies
+const searchMovie = async (req, res) => {
+  console.log(req.params.title);
+  await Movie.findAll({
+    where: {
+      title: sequelize.where(
+        sequelize.fn('LOWER', sequelize.col('title')),
+        'LIKE',
+        '%' + req.params.title + '%'
+      )
+    },
+  }).then (result => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(500).send({
+      message: 'Sorry, Movie Not Found!'
+    });
+  });
+};
+
+// Get all English Movies
+const allEnglishMovies = async (req, res) => {
+  await Movie.findAll({
+    where: {category: 'English'},
+    order: [['releaseDate', 'DESC']]
+  }).then (result => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(500).send({
+      message: 'Not Found!'
+    });
+  });
+}
+
+// Get all Hindi Movies
+const allHindiMovies = async (req, res) => {
+  await Movie.findAll({
+    where: {category: 'Hindi'},
+    order: [['releaseDate', 'DESC']]
+  }).then (result => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(500).send({
+      message: 'Not Found!'
+    });
+  });
+}
+
+// Get all Bangla Movies
+const allBanglaMovies = async (req, res) => {
+  await Movie.findAll({
+    where: {category: 'Bangla'},
+    order: [['releaseDate', 'DESC']]
+  }).then (result => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(500).send({
+      message: 'Not Found!'
+    });
+  });
+}
 
 // Single movie
 const singleMovie = async (req, res) => {
@@ -23,7 +95,7 @@ const singleMovie = async (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Movie not Found",
+        message: err.message,
       });
     });
 };
@@ -92,6 +164,11 @@ const updateMovie = async (req, res) => {
 
 module.exports = {
   getAllMovies,
+  getLatestMovies,
+  searchMovie,
+  allEnglishMovies,
+  allHindiMovies,
+  allBanglaMovies,
   singleMovie,
   addMovie,
   updateMovie,
