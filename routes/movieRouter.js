@@ -4,10 +4,10 @@ const router = require('express').Router()
 
 // Admin routes
 // Router for getting movies
-router.get('/allMovies', [verifyToken], movieController.getAllMovies) // url: localhost:8080/api/movies/allMovies
+router.get('/allMovies', movieController.getAllMovies) // url: localhost:8080/api/movies/allMovies
 
 // Router for adding movie
-router.post('/addMovie', [verifyToken], movieController.addMovie); // url: localhost:8080/api/movies/addMovie with body
+router.post('/addMovie', movieController.addMovie); // url: localhost:8080/api/movies/addMovie with body
 
 
 // All user routes
